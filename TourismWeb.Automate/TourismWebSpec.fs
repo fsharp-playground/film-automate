@@ -47,7 +47,7 @@ module TourismWebSpec =
         configuration.compareTimeout <- 3.0
         configuration.pageTimeout <- 3.0
         configuration.runFailedContextsFirst <- true
-        configuration.reporter <- new LiveHtmlReporter(Chrome, configuration.chromeDir) :> IReporter
+        //configuration.reporter <- new LiveHtmlReporter(Chrome, configuration.chromeDir) :> IReporter
         configuration.failFast := true
         runner.context ("Tourism Web @ " + url)
 //        runner.once (fun _ -> Console.WriteLine "once")
@@ -67,15 +67,11 @@ module TourismWebSpec =
 
     let Option value = read <| sprintf """option[value="%s"]""" value
 
+    let jw = File.ReadAllText("Property.json") |> Property.Parse
+    let logger = LogManager.GetCurrentClassLogger()
 
-    let LetsItGo() =
 
-        let jw = File.ReadAllText("Property.json") |> Property.Parse
-        let logger = LogManager.GetCurrentClassLogger()
-
-        Config jw.TestUrl
-        Start()
-
+    let Test001() =
         match jw.C1.Title |> Test with
         | (true, case) -> 
             case &&& fun _ ->
@@ -86,6 +82,7 @@ module TourismWebSpec =
                 "div.tr-logout > a" == "ออกจากระบบ"
         | _ -> ()
 
+    let Test002() =
         match jw.C2.Title |> Test with
         | (true, case) -> 
             case &&& fun _ ->
@@ -96,9 +93,7 @@ module TourismWebSpec =
                 (* kendo ui dropdown list is a combinationof a tree of spans
                 and a completely decoupled hidden div containing an unordered list
                 which is dynamically positioned using position:absolute
-                *)
-                //let el = NgModel "selectedCountryId" |> element 
-                //el << "5"
+                let el = NgModel "selectedCountryId" |> element *)
 
                 NgModel "st.applicant.name" << jw.C2.ApplicantName
                 NgModel "st.applicant.address" << Str jw.C2.ApplicantAddress
@@ -109,8 +104,9 @@ module TourismWebSpec =
                 NgModel "st.applicant.email" << jw.C2.ApplicantEmail
                 NgModel "st.applicant.website" << jw.C2.ApplicantWebsite
 
-                click  "#i2"
+                "#i2" |> click
                 
+                NgModel "st.film.title" << jw.C2.FilmTitle
                 NgModel "st.film.budget" << Str jw.C2.FilmBudget
                 //NgModel "st.film.selectedFormatId" << Str jw.C2.FilmSelectedFormatId
                 KngModel "st.film.startFilming" << jw.C2.FilmStartFilming.ToString "MM/dd/yyyy"
@@ -118,11 +114,21 @@ module TourismWebSpec =
                 NgModel "st.film.lengthInHour" << Str jw.C2.FilmLengthInHour
                 NgModel "st.film.lengthInMinute" << Str jw.C2.FilmLengthInMinute
                 NgModel "st.film.lengthInSecond" << Str jw.C2.FilmLengthInSecond
-                click """[ng-click="vm.update()"]"""
+                """[ng-click="vm.update()"]""" |> click
 
-                (element """//div[contains(text(), "บันทึกข้อมูลเรียบร้อย")""").Displayed === true
+                (element """//html/body/div[8]/h2""").Text == "Success"
+                """//html/body/div[8]/button[2]""" |> click
+                """[ng-click="vm.next()"]""" |> click
 
         | _ ->()
+
+
+    let LetsItGo() =
+        Config jw.TestUrl
+        Start()
+
+        Test001()
+        Test002()
 
         Run()
 
