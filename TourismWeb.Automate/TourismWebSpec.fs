@@ -12,12 +12,6 @@ module TourismWebSpec =
     #r "Newtonsoft.Json.dll"
     #endif
 
-    #if INTERACTIVE
-    let path = __SOURCE_DIRECTORY__ 
-    #else
-    let path = "./"
-    #endif
-
     open System
     open OpenQA.Selenium
     open canopy.configuration
@@ -31,7 +25,13 @@ module TourismWebSpec =
     open NLog
     open FSharp.Data
 
-    System.IO.Directory.SetCurrentDirectory(path)
+    do
+        #if INTERACTIVE
+        let path = __SOURCE_DIRECTORY__ 
+        #else
+        let path = "./"
+        #endif
+        System.IO.Directory.SetCurrentDirectory(path)
 
     type Logger with
         member this.Json obj = 
@@ -42,24 +42,24 @@ module TourismWebSpec =
     let Test (case:string) = (case.StartsWith "_" = false, case)
 
     let Config url =
-        configuration.chromeDir <- path
-        configuration.elementTimeout <- 5.0
+        configuration.chromeDir <- "./"
+        configuration.elementTimeout <- 7.0
         configuration.compareTimeout <- 3.0
         configuration.pageTimeout <- 3.0
         configuration.runFailedContextsFirst <- true
         //configuration.reporter <- new LiveHtmlReporter(Chrome, configuration.chromeDir) :> IReporter
         configuration.failFast := true
         runner.context ("Tourism Web @ " + url)
-//        runner.once (fun _ -> Console.WriteLine "once")
-//        runner.before(fun _ -> Console.WriteLine "before")
-//        runner.after(fun _ -> Console.WriteLine "alfter")
-//        runner.lastly(fun _ -> Console.WriteLine "lastly")
 
     let Start() = core.start core.chrome
 
     let Run() = runner.run(); //core.quit()
 
     let Str (obj:obj) = obj.ToString()
+
+    let Date (obj:DateTime) = obj.ToString("MM/dd/yyyy")
+
+    let Time (obj:DateTime) = obj.ToString("hh:mm tt")
 
     let NgModel str = sprintf """[ng-model="%s"]""" str
 
@@ -70,20 +70,21 @@ module TourismWebSpec =
     let jw = File.ReadAllText("Property.json") |> Property.Parse
     let logger = LogManager.GetCurrentClassLogger()
 
-
-    let Test001() =
-        match jw.C1.Title |> Test with
+    let LoginSpec() =
+        let login = jw.Login;
+        match login.Title |> Test with
         | (true, case) -> 
             case &&& fun _ ->
                 core.url jw.TestUrl
-                "[name=userName]"  << jw.C1.UserName 
-                "[name=password]" << jw.C1.Password.ToString()
+                "[name=userName]"  << login.UserName 
+                "[name=password]" << login.Password.ToString()
                 click "[type=submit]"
                 "div.tr-logout > a" == "ออกจากระบบ"
         | _ -> ()
 
-    let Test002() =
-        match jw.C2.Title |> Test with
+    let RequestStep1Spec() =
+        let r1 = jw.R;
+        match r1.Title |> Test with
         | (true, case) -> 
             case &&& fun _ ->
 
@@ -95,41 +96,111 @@ module TourismWebSpec =
                 which is dynamically positioned using position:absolute
                 let el = NgModel "selectedCountryId" |> element *)
 
-                NgModel "st.applicant.name" << jw.C2.ApplicantName
-                NgModel "st.applicant.address" << Str jw.C2.ApplicantAddress
-                NgModel "st.applicant.postcode" << Str jw.C2.ApplicantPostcode
-                //NgModel "selectedCountryId" << jw.C2.ApplicantCountry
-                NgModel "st.applicant.telephone" << Str jw.C2.ApplicantTelephone
-                NgModel "st.applicant.fax" << Str jw.C2.ApplicantFax
-                NgModel "st.applicant.email" << jw.C2.ApplicantEmail
-                NgModel "st.applicant.website" << jw.C2.ApplicantWebsite
+                NgModel "st.applicant.name" << r1.Applicant.Name
+                NgModel "st.applicant.address" << Str r1.Applicant.Address
+                NgModel "st.applicant.postcode" << Str r1.Applicant.Postcode
+                //NgModel "selectedCountryId" << r1.ApplicantCountry
+                NgModel "st.applicant.telephone" << Str r1.Applicant.Telephone
+                NgModel "st.applicant.fax" << Str r1.Applicant.Fax
+                NgModel "st.applicant.email" << r1.Applicant.Email
+                NgModel "st.applicant.website" << r1.Applicant.Website
 
                 "#i2" |> click
                 
-                NgModel "st.film.title" << jw.C2.FilmTitle
-                NgModel "st.film.budget" << Str jw.C2.FilmBudget
-                //NgModel "st.film.selectedFormatId" << Str jw.C2.FilmSelectedFormatId
-                KngModel "st.film.startFilming" << jw.C2.FilmStartFilming.ToString "MM/dd/yyyy"
-                KngModel "st.film.endFilming" << jw.C2.FilmEndFilming.ToString "MM/dd/yyyy"
-                NgModel "st.film.lengthInHour" << Str jw.C2.FilmLengthInHour
-                NgModel "st.film.lengthInMinute" << Str jw.C2.FilmLengthInMinute
-                NgModel "st.film.lengthInSecond" << Str jw.C2.FilmLengthInSecond
+                NgModel "st.film.title" << r1.Film.Title
+                NgModel "st.film.budget" << Str r1.Film.Budget
+                //NgModel "st.film.selectedFormatId" << Str r1.FilmSelectedFormatId
+                KngModel "st.film.startFilming" << Date r1.Film.StartFilming
+                KngModel "st.film.endFilming" << Date r1.Film.EndFilming
+                NgModel "st.film.lengthInHour" << Str r1.Film.LengthInHour
+                NgModel "st.film.lengthInMinute" << Str r1.Film.LengthInMinute
+                NgModel "st.film.lengthInSecond" << Str r1.Film.LengthInSecond
                 """[ng-click="vm.update()"]""" |> click
 
-                (element """//html/body/div[8]/h2""").Text == "Success"
-                """//html/body/div[8]/button[2]""" |> click
-                """[ng-click="vm.next()"]""" |> click
+                """button.confirm""" |> click
 
         | _ ->()
 
+    let RequestStep2Spec() =
+        let r2 = jw.R2
+        match r2.Title |> Test with 
+        | (true, case) ->
+            case &&& fun _ ->
+                """[ng-click="vm.next()"]""" |> click
+                NgModel "st.staff.firstName" << r2.Staff.FirstName
+                NgModel "st.staff.middleName" << r2.Staff.MiddleName
+                NgModel "st.staff.lastName" << r2.Staff.LastName
+                NgModel "st.staff.age" << Str r2.Staff.Age
+                NgModel "st.staff.passportNo" << Str r2.Staff.PassportNo
+                KngModel "st.staff.expireDate" << Date r2.Staff.ExpireDate
+                KngModel "st.staff.stayFrom" << Date r2.Staff.StayFrom
+                KngModel "st.staff.stayTo" << Date r2.Staff.StayTo
+
+                """[ng-click="vm.addStaff()"]""" |> click
+                "li.k-last" |> click
+
+                KngModel "st.team.arriveDate" << Date r2.Team.ArriveDate
+                KngModel "st.team.workingFrom" << Date r2.Team.WorkingFrom
+                KngModel "st.team.workingTo" << Date r2.Team.WorkingTo
+
+                NgModel "st.teamAddress.accommodation" << r2.TeamAddress.Accommodation
+                NgModel "st.teamAddress.address" << r2.TeamAddress.Address
+                NgModel "st.teamAddress.telephone" << Str r2.TeamAddress.Telephone
+                NgModel "st.teamAddress.fax" << Str r2.TeamAddress.Fax
+                NgModel "st.teamAddress.email" << r2.TeamAddress.Email
+
+                """[ng-click="vm.update()"]""" |> click
+                """button.confirm""" |> click
+
+        | _ -> ()
+
+
+    let RequestStep3Spec() =
+        let r3 = jw.R3
+        match r3.Title |> Test with
+        | (true, case) ->
+            case &&& fun _ ->
+                """[ng-click="vm.next()"]""" |> click
+                "st.filmingLocation.name" |> NgModel << r3.FilmingLocation.Name
+                "st.filmingLocation.address" |> NgModel << r3.FilmingLocation.Address
+                "st.filmingLocation.startDate" |> KngModel << Date r3.FilmingLocation.StartDate
+                "st.filmingLocation.endDate" |> KngModel << Date r3.FilmingLocation.EndDate
+                "st.filmingLocation.startTime" |> KngModel << Time r3.FilmingLocation.StartTime
+                "st.filmingLocation.endTime" |> KngModel << Time r3.FilmingLocation.EndTime
+                "st.filmingLocation.scene" |> NgModel << r3.FilmingLocation.Scene
+                "st.filmingLocation.detail" |> NgModel << r3.FilmingLocation.Detail
+                "st.filmingLocation.latitude" |> NgModel << Str r3.FilmingLocation.Latitude
+                "st.filmingLocation.longitude" |> NgModel << Str r3.FilmingLocation.Longitude
+
+                """[ng-click="vm.addLocation()"]""" |> click
+                """[ng-click="vm.update()"]""" |> click
+                """button.confirm""" |> click
+
+        | _ -> ()
+
+
+    let RequestStep4Spec() =
+        let r4 = jw.R4;
+        match r4.Title |> Test with
+        | (true, case) ->
+            case &&& fun _ ->
+                """[ng-click="vm.next()"]""" |> click
+                let els = """[ng-click="vm.generate(form)"]""" |> core.elements
+                els |> List.iter (fun el -> el |> click)
+
+                let views = """.file.pdf.outline""" |> core.elements
+                views.Count() === els.Count()
+
+        | _ -> ()
 
     let LetsItGo() =
         Config jw.TestUrl
         Start()
 
-        Test001()
-        Test002()
+        LoginSpec()
+        RequestStep1Spec()
+        RequestStep2Spec()
+        RequestStep3Spec()
+        RequestStep4Spec()
 
         Run()
-
-

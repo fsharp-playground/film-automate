@@ -4,34 +4,82 @@
         "userName": "staff1",
         "password": "1234"
     },
-    "C01": {
+    "Login": {
         "title": "Should Login As Wk",
         "userName": "wk",
         "password": "1234"
     },
-    "C02": {
+    "R1": {
         "title": "Should Enter Step1 And Save",
-        "applicantName": "Hello",
-        "applicantAddress": "240",
-        "applicantPostcode": "33140",
-        "applicantCountry": "Japan",
-        "applicantTelephone": "1234567890",
-        "applicantFax": "1234567890",
-        "applicantEmail":  "mail@yahooe.com",
-        "applicantWebsite": "google.com",
-        "filmTitle":  "สายลับเล็กเล็ก",
-        "filmBudget": 200000,
-        "filmStartFilming": "10/10/2015",
-        "filmEndFilming": "12/12/2015",
-        "filmSelectedFormatId": "2",
-        "filmLengthInHour": 1,
-        "filmLengthInMinute": 30,
-        "filmLengthInSecond": 0
+        "applicant": {
+
+            "name": "Hello",
+            "address": "240",
+            "postcode": "33140",
+            "countryDn": "Japan",
+            "telephone": "1234567890",
+            "fax": "1234567890",
+            "email": "mail@yahooe.com",
+            "website": "google.com"
+        },
+        "film": {
+            "title": "สายลับเล็กเล็ก",
+            "budget": 200000,
+            "startFilming": "10/10/2015",
+            "endFilming": "12/12/2015",
+            "formatDn": "2",
+            "lengthInHour": 1,
+            "lengthInMinute": 30,
+            "lengthInSecond": 0
+        }
     },
-    "C03": {
-        "title": "Should Enter Step2 And Save"
+    "R2": {
+        "title": "Should Enter Step2 And Save",
+        "staff": {
+            "titleDn": "1",
+            "firstName": "Somnuk",
+            "middleName": "W",
+            "lastName": "Wongkhan",
+            "age": 20,
+            "positionDn": "1",
+            "nationalityDn": "1",
+            "ethnicityDn": "1",
+            "passportNo": "1234567890",
+            "expireDate": "10/10/2016",
+            "stayFrom": "10/10/2015",
+            "stayTo": "10/10/2015"
+        },
+        "team": {
+            "arriveDate": "10/10/2015",
+            "workingFrom": "10/10/2015",
+            "workingTo": "10/10/2015"
+        },
+        "teamAddress": {
+            "accommodation": "240 M 19",
+            "address": "240 M 19",
+            "provinceDn": "1",
+            "telephone": "1234567890",
+            "fax": "1234567890",
+            "email": "somnuk.wk@gmail.com"
+        }
     },
-    "C04": {
-        "title": "Should Enter Step3 And Save"
+    "R3": {
+        "title": "Should Enter Step3 And Save",
+        "filmingLocation": {
+            "name": "Home",
+            "address": "420 M 19",
+            "provinceDn": "5",
+            "startDate": "10/10/2015",
+            "endDate": "10/12/2015",
+            "startTime": "9:00 AM",
+            "endTime": "5:00 PM",
+            "scene": "Scene 1",
+            "detail": "Waking",
+            "latitude": "100.5",
+            "longitude": "100.6"
+        }
+    },
+    "R4": {
+        "title": "Should Generate Forms"
     }
 }
