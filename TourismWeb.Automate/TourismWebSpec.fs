@@ -79,7 +79,7 @@ module TourismWebSpec =
         let login = jw.Login;
         match login.Title |> Test with
         | (true, case) -> 
-            case &&& fun _ ->
+            case &&&& fun _ ->
                 core.url jw.TestUrl
                 "[name=userName]"  << login.UserName 
                 "[name=password]" << login.Password.ToString()
@@ -91,7 +91,7 @@ module TourismWebSpec =
         let r1 = jw.R;
         match r1.Title |> Test with
         | (true, case) -> 
-            case &&& fun _ ->
+            case &&&& fun _ ->
 
                 "[ui-sref=request]"         |> click
                 "โฆษณา"                     |> click
@@ -125,7 +125,7 @@ module TourismWebSpec =
         let r2 = jw.R2
         match r2.Title |> Test with 
         | (true, case) ->
-            case &&& fun _ ->
+            case &&&& fun _ ->
                 """[ng-click="vm.next()"]""" |> click
 
                 "st.staff.firstName"    |> NgModel << r2.Staff.FirstName
@@ -168,7 +168,7 @@ module TourismWebSpec =
         let r3 = jw.R3
         match r3.Title |> Test with
         | (true, case) ->
-            case &&& fun _ ->
+            case &&&& fun _ ->
                 """[ng-click="vm.next()"]"""    |> click
 
                 "st.filmingLocation.name"       |> NgModel << r3.FilmingLocation.Name
@@ -195,7 +195,7 @@ module TourismWebSpec =
         let r4 = jw.R4;
         match r4.Title |> Test with
         | (true, case) ->
-            case &&& fun _ ->
+            case &&&& fun _ ->
                 """[ng-click="vm.next()"]""" |> click
                 let els = """[ng-click="vm.generate(form)"]""" |> core.elements
                 els |> List.iter (fun el -> el |> click)
