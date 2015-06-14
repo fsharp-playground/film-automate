@@ -16,14 +16,14 @@
             "name": "Hello",
             "address": "240",
             "postcode": "33140",
-            "countryDn": "Japan",
+            "countryDn": "2",
             "telephone": "1234567890",
             "fax": "1234567890",
             "email": "mail@yahooe.com",
             "website": "google.com"
         },
         "film": {
-            "title": "สายลับเล็กเล็ก",
+            "title": "สายลับเล็กเล็ก", 
             "budget": 200000,
             "startFilming": "10/10/2015",
             "endFilming": "12/12/2015",
