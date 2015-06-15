@@ -9,7 +9,7 @@
         "userName": "wk",
         "password": "1234"
     },
-    "R1": {
+    "ReqeustA": {
         "title": "Should Enter Step1 And Save",
         "applicant": {
 
@@ -23,7 +23,7 @@
             "website": "google.com"
         },
         "film": {
-            "title": "สายลับเล็กเล็ก", 
+            "title": "สายลับเล็กเล็ก",
             "budget": 200000,
             "startFilming": "10/10/2015",
             "endFilming": "12/12/2015",
@@ -33,7 +33,7 @@
             "lengthInSecond": 0
         }
     },
-    "R2": {
+    "RequestB": {
         "title": "Should Enter Step2 And Save",
         "staff": {
             "titleDn": "1",
@@ -63,7 +63,7 @@
             "email": "somnuk.wk@gmail.com"
         }
     },
-    "R3": {
+    "RequestD": {
         "title": "Should Enter Step3 And Save",
         "filmingLocation": {
             "name": "Home",
@@ -79,7 +79,15 @@
             "longitude": "100.6"
         }
     },
-    "R4": {
+    "RequestE": {
         "title": "Should Generate Forms"
+    },
+    "RequestF": {
+        "title": "Should Upload All Attachments",
+        "pl": {
+            "firstName": "beer",
+            "email": "beer@gmail.com",
+            "telephone": "1234567890"
+        }
     }
 }

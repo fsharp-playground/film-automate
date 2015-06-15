@@ -43,9 +43,9 @@ module TourismWebSpec =
 
     let Config url =
         configuration.chromeDir <- "./"
-        configuration.elementTimeout <- 77.0
-        configuration.compareTimeout <- 3.0
-        configuration.pageTimeout <- 3.0
+        configuration.elementTimeout <- 10.0
+        configuration.compareTimeout <- 10.0
+        configuration.pageTimeout <- 10.0
         configuration.runFailedContextsFirst <- true
         //configuration.reporter <- new LiveHtmlReporter(Chrome, configuration.chromeDir) :> IReporter
         configuration.failFast := true
@@ -67,8 +67,11 @@ module TourismWebSpec =
 
     let Option value = read <| sprintf """option[value="%s"]""" value
 
+    let GetFile() = FileInfo(@"..\vimtips.pdf").FullName
+
     let jw = File.ReadAllText("Property.json") |> Property.Parse
     let logger = LogManager.GetCurrentClassLogger()
+
 
     let DropDown value name = 
         let cmd = sprintf """$('%s').data("kendoDropDownList").select(%d)""" name value
@@ -88,7 +91,7 @@ module TourismWebSpec =
         | _ -> ()
 
     let RequestStep1Spec() =
-        let r1 = jw.R;
+        let r1 = jw.ReqeustA
         match r1.Title |> Test with
         | (true, case) -> 
             case &&&& fun _ ->
@@ -122,7 +125,7 @@ module TourismWebSpec =
         | _ ->()
 
     let RequestStep2Spec() =
-        let r2 = jw.R2
+        let r2 = jw.RequestB
         match r2.Title |> Test with 
         | (true, case) ->
             case &&&& fun _ ->
@@ -165,7 +168,7 @@ module TourismWebSpec =
 
 
     let RequestStep3Spec() =
-        let r3 = jw.R3
+        let r3 = jw.RequestD
         match r3.Title |> Test with
         | (true, case) ->
             case &&&& fun _ ->
@@ -192,7 +195,7 @@ module TourismWebSpec =
 
 
     let RequestStep4Spec() =
-        let r4 = jw.R4;
+        let r4 = jw.RequestE
         match r4.Title |> Test with
         | (true, case) ->
             case &&&& fun _ ->
@@ -202,18 +205,45 @@ module TourismWebSpec =
 
                 //let views = """.file.pdf.outline""" |> core.elements
                 //views.Count() === els.Count()
-                ".confirm" |> notDisplayed
+//                ".confirm" |> notDisplayed
 
         | _ -> ()
 
+    let RequestStep5Spec() =
+        let r5 = jw.RequestF
+        match r5.Title |> Test with
+        | (true, case) ->
+            case &&&& fun _ ->
+                """[ng-click="vm.next()"]""" |> click
+                let els = """[type="file"]""" |> core.elements 
+                els |> List.iter(fun el -> 
+                    //el |> click
+                    GetFile() |> el.SendKeys 
+                    GetFile() |> Console.WriteLine)
+                "st.policeLiasion.firstName"    |> NgModel << r5.Pl.FirstName
+                "st.policeLiasion.email"        |> NgModel << r5.Pl.Email 
+                "st.policeLiasion.telephone"    |> NgModel << Str r5.Pl.Telephone
+        | _ -> ()
+
+    let Jw() =
+        let els = sprintf """$('[type="file"]').val('%s')"""  (GetFile())
+        let rs = els |> js
+
+        let el = element """[type="file"]"""
+        el |> click
+        el << GetFile()
+        ()
+
     let LetsItGo() =
+
         Config jw.TestUrl
         Start()
-
         LoginSpec()
+
         RequestStep1Spec()
         RequestStep2Spec()
         RequestStep3Spec()
         RequestStep4Spec()
+        RequestStep5Spec()
 
         Run()
