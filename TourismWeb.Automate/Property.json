@@ -1,5 +1,7 @@
 ﻿{
-    "testUrl": "http://10.0.0.200:9991",
+    "testUrl": "http://10.211.55.3:9991",
+    "gridUrl": "http://10.0.0.146:4444/wd/hub",
+    "attachFile":  "/Users/wk/Resources/tst/gov.pdf",
     "tfoUserInfo": {
         "userName": "staff1",
         "password": "1234"

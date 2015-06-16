@@ -24,6 +24,7 @@ module TourismWebSpec =
     open Newtonsoft.Json
     open NLog
     open FSharp.Data
+    open OpenQA.Selenium.Remote
 
     do
         #if INTERACTIVE
@@ -33,11 +34,15 @@ module TourismWebSpec =
         #endif
         System.IO.Directory.SetCurrentDirectory(path)
 
+
     type Logger with
         member this.Json obj = 
             JsonConvert.SerializeObject obj |> this.Trace
 
     type Property = FSharp.Data.JsonProvider<"Property.json">
+
+    let jw = File.ReadAllText("Property.json") |> Property.Parse
+    let logger = LogManager.GetCurrentClassLogger()
 
     let Test (case:string) = (case.StartsWith "_" = false, case)
 
@@ -51,7 +56,10 @@ module TourismWebSpec =
         configuration.failFast := true
         runner.context ("Tourism Web @ " + url)
 
-    let Start() = core.start core.chrome
+    let Start() = 
+        // core.start core.chrome
+        let driver = (jw.GridUrl, DesiredCapabilities.Chrome() :> ICapabilities)
+        core.start (Remote driver)
 
     let Run() = runner.run(); //core.quit()
 
@@ -67,11 +75,7 @@ module TourismWebSpec =
 
     let Option value = read <| sprintf """option[value="%s"]""" value
 
-    let GetFile() = FileInfo(@"..\vimtips.pdf").FullName
-
-    let jw = File.ReadAllText("Property.json") |> Property.Parse
-    let logger = LogManager.GetCurrentClassLogger()
-
+    let GetFile() = jw.AttachFile
 
     let DropDown value name = 
         let cmd = sprintf """$('%s').data("kendoDropDownList").select(%d)""" name value
@@ -205,7 +209,7 @@ module TourismWebSpec =
 
                 //let views = """.file.pdf.outline""" |> core.elements
                 //views.Count() === els.Count()
-//                ".confirm" |> notDisplayed
+                //".confirm" |> notDisplayed
 
         | _ -> ()
 
@@ -220,6 +224,8 @@ module TourismWebSpec =
                     //el |> click
                     GetFile() |> el.SendKeys 
                     GetFile() |> Console.WriteLine)
+
+                "li.k-last" |> click
                 "st.policeLiasion.firstName"    |> NgModel << r5.Pl.FirstName
                 "st.policeLiasion.email"        |> NgModel << r5.Pl.Email 
                 "st.policeLiasion.telephone"    |> NgModel << Str r5.Pl.Telephone
@@ -230,7 +236,7 @@ module TourismWebSpec =
         let rs = els |> js
 
         let el = element """[type="file"]"""
-        el |> click
+        //el |> click
         el << GetFile()
         ()
 

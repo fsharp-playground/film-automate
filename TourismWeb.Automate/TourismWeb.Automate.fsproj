@@ -71,6 +71,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Info.json" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="canopy">
