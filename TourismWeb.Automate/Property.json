@@ -4,12 +4,12 @@
         "userName": "staff1",
         "password": "1234"
     },
-    "Login": {
+    "login": {
         "title": "Should Login As Wk",
         "userName": "wk",
         "password": "1234"
     },
-    "ReqeustA": {
+    "reqeustA": {
         "title": "Should Enter Step1 And Save",
         "applicant": {
 
@@ -19,7 +19,7 @@
             "countryDn": "2",
             "telephone": "1234567890",
             "fax": "1234567890",
-            "email": "mail@yahooe.com",
+            "email": "mail@google.com",
             "website": "google.com"
         },
         "film": {
@@ -33,7 +33,7 @@
             "lengthInSecond": 0
         }
     },
-    "RequestB": {
+    "requestB": {
         "title": "Should Enter Step2 And Save",
         "staff": {
             "titleDn": "1",
@@ -63,7 +63,7 @@
             "email": "somnuk.wk@gmail.com"
         }
     },
-    "RequestD": {
+    "requestD": {
         "title": "Should Enter Step3 And Save",
         "filmingLocation": {
             "name": "Home",
@@ -79,14 +79,14 @@
             "longitude": "100.6"
         }
     },
-    "RequestE": {
+    "requestE": {
         "title": "Should Generate Forms"
     },
-    "RequestF": {
+    "requestF": {
         "title": "Should Upload All Attachments",
         "pl": {
-            "firstName": "beer",
-            "email": "beer@gmail.com",
+            "firstName": "wk",
+            "email": "mail@gmail.com",
             "telephone": "1234567890"
         }
     }

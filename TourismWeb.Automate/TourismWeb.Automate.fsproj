@@ -70,6 +70,7 @@
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Info.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="canopy">

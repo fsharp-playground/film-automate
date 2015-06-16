@@ -1,0 +1,13 @@
+﻿{
+    "A": {
+        "title": "Info A"
+    },
+    "B": {
+        "title": "Info B",
+        "policeliasion": {
+            "firstName": "wk",
+            "email": "mail@gmail.com",
+            "telephone": "1234567890"
+        }
+    }
+}
