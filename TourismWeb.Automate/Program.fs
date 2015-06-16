@@ -8,6 +8,6 @@ module Starter =
 
     [<EntryPoint>]
     let main args =
-        TourismWeb.Automate.TourismWebSpec.LetsItGo()
+        TourismWeb.Automate.TourismWebSpec.letsItGo()
         Console.ReadLine() |> ignore
         0

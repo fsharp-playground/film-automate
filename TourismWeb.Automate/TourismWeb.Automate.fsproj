@@ -58,6 +58,7 @@
     <Compile Include="UnitSpec.fs" />
     <Compile Include="TourismWebSpec.fs" />
     <None Include="JsonProviderSpec.fsx" />
+    <None Include="TourismWebExperimentalSpec.fsx" />
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
