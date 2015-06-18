@@ -11,7 +11,7 @@
         "userName": "wk",
         "password": "1234"
     },
-    "reqeustA": {
+    "S1": {
         "title": "Should Enter Step1 And Save",
         "applicant": {
 
@@ -35,7 +35,7 @@
             "lengthInSecond": 0
         }
     },
-    "requestB": {
+    "S2": {
         "title": "Should Enter Step2 And Save",
         "staff": {
             "titleDn": "1",
@@ -65,7 +65,7 @@
             "email": "somnuk.wk@gmail.com"
         }
     },
-    "requestD": {
+    "S3": {
         "title": "Should Enter Step3 And Save",
         "filmingLocation": {
             "name": "Home",
@@ -81,10 +81,10 @@
             "longitude": "100.6"
         }
     },
-    "requestE": {
+    "S4": {
         "title": "Should Generate Forms"
     },
-    "requestF": {
+    "S5": {
         "title": "Should Upload All Attachments",
         "pl": {
             "firstName": "wk",
@@ -92,7 +92,7 @@
             "telephone": "1234567890"
         }
     },
-    "requestI": {
+    "S6": {
         "title": "Should Send Request To Tfo"
     }
 }

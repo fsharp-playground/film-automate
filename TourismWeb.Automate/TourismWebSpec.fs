@@ -2,7 +2,6 @@
 
 module TourismWebSpec =
 
-
     #if INTERACTIVE
     #I "bin/Debug"
     #r "canopy.dll"
@@ -94,7 +93,7 @@ module TourismWebSpec =
         | _ -> ()
 
     let requestStep1Spec() =
-        let r1 = jw.ReqeustA
+        let r1 = jw.S
         match r1.Title |> test with
         | (true, case) -> 
             case &&& fun _ ->
@@ -111,7 +110,7 @@ module TourismWebSpec =
                 "st.applicant.email"        |> ngModel  << r1.Applicant.Email
                 "st.applicant.website"      |> ngModel  << r1.Applicant.Website
 
-                "#i2"                       |> click
+                //"#i2"                       |> click
                 
                 "st.film.title"             |> ngModel << r1.Film.Title
                 "st.film.budget"            |> ngModel << str r1.Film.Budget
@@ -128,7 +127,7 @@ module TourismWebSpec =
         | _ ->()
 
     let requestStep2Spec() =
-        let r2 = jw.RequestB
+        let r2 = jw.S2
         match r2.Title |> test with 
         | (true, case) ->
             case &&& fun _ ->
@@ -150,7 +149,7 @@ module TourismWebSpec =
 
 
                 """[ng-click="vm.addStaff()"]""" |> click
-                "li.k-last" |> click
+                //"li.k-last" |> click
 
                 "st.team.arriveDate"   |> kngModel << date r2.Team.ArriveDate
                 "st.team.workingFrom"  |> kngModel << date r2.Team.WorkingFrom
@@ -171,7 +170,7 @@ module TourismWebSpec =
 
 
     let requestStep3Spec() =
-        let r3 = jw.RequestD
+        let r3 = jw.S3
         match r3.Title |> test with
         | (true, case) ->
             case &&& fun _ ->
@@ -198,7 +197,7 @@ module TourismWebSpec =
 
 
     let requestStep4Spec() =
-        let r4 = jw.RequestE
+        let r4 = jw.S4
         match r4.Title |> test with
         | (true, case) ->
             case &&& fun _ ->
@@ -216,17 +215,12 @@ module TourismWebSpec =
         | _ -> ()
 
     let requestStep5Spec() =
-        let r5 = jw.RequestF
+        let r5 = jw.S5
         match r5.Title |> test with
         | (true, case) ->
             case &&& fun _ ->
                 """[ng-click="vm.next()"]""" |> click
                 let els = """[type="file"]""" |> core.elements 
-
-                let clickable() =
-                    els |> List.forall (fun x -> x.Displayed)
-
-//                core.waitFor clickable
 
                 els |> List.iter(fun el -> 
                     getFile() |> el.SendKeys 
@@ -239,7 +233,8 @@ module TourismWebSpec =
 
                 core.waitFor wait
 
-                "li.k-last" |> click
+                //"li.k-last" |> click
+
                 "st.policeLiasion.firstName"    |> ngModel << r5.Pl.FirstName
                 "st.policeLiasion.email"        |> ngModel << r5.Pl.Email 
                 "st.policeLiasion.telephone"    |> ngModel << str r5.Pl.Telephone
@@ -250,7 +245,7 @@ module TourismWebSpec =
         | _ -> ()
 
     let requestStep6Spec() =
-        let r6 = jw.RequestI
+        let r6 = jw.S6
         match r6.Title |> test with
         | (true, case) ->
             case &&& fun _ ->
