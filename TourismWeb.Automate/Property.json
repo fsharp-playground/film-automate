@@ -1,7 +1,9 @@
 ﻿{
-    "testUrl": "http://10.211.55.3:3000",
+    "testUrl": "http://10.0.0.200:9991",
     "gridUrl": "http://10.0.0.146:4444/wd/hub",
-    "attachFile": "/Users/wk/Resource/test/gov.pdf",
+    "attachFileX": "/Users/wk/Resource/test/gov.pdf",
+    "timeout":  30.0,
+    "attachFile": "fsharp.pdf",
     "tfoUserInfo": {
         "userName": "staff1",
         "password": "1234"

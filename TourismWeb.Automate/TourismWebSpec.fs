@@ -46,17 +46,18 @@ module TourismWebSpec =
 
     let config url =
         configuration.chromeDir <- "./"
-        configuration.elementTimeout <- 20.0
-        configuration.compareTimeout <- 20.0
-        configuration.pageTimeout <- 20.0
+        configuration.elementTimeout <- float jw.Timeout
+        configuration.compareTimeout <- float jw.Timeout
+        configuration.pageTimeout <- float jw.Timeout
         configuration.runFailedContextsFirst <- true
         //configuration.reporter <- new LiveHtmlReporter(Chrome, configuration.chromeDir) :> IReporter
         configuration.failFast := true
         runner.context ("Tourism Web @ " + url)
 
     let start() = 
-        let driver = (jw.GridUrl, DesiredCapabilities.Chrome() :> ICapabilities)
-        core.start (Remote driver)
+        //let driver = (jw.GridUrl, DesiredCapabilities.Chrome() :> ICapabilities)
+        //core.start (Remote driver)
+        core.start core.chrome
         core.pin FullScreen
 
     let run() = runner.run(); //core.quit()
@@ -73,7 +74,7 @@ module TourismWebSpec =
 
     let Option value = read <| sprintf """option[value="%s"]""" value
 
-    let getFile() = jw.AttachFile
+    let getFile() = FileInfo(jw.AttachFile).FullName
 
     let dropdown value name = 
         let cmd = sprintf """$('%s').data("kendoDropDownList").select(%d)""" name value
@@ -89,7 +90,10 @@ module TourismWebSpec =
                 "[name=userName]"  << login.UserName 
                 "[name=password]" << login.Password.ToString()
                 click "[type=submit]"
-                "div.tr-logout > a" == "ออกจากระบบ"
+                //"div.tr-logout > a" core.contains "ออกจากระบบ"
+                let el = "div.tr-logout > a" |> element
+                el.Text |> contains "ออกจากระบบ"
+
         | _ -> ()
 
     let requestStep1Spec() =
@@ -152,8 +156,8 @@ module TourismWebSpec =
                 //"li.k-last" |> click
 
                 "st.team.arriveDate"   |> kngModel << date r2.Team.ArriveDate
-                "st.team.workingFrom"  |> kngModel << date r2.Team.WorkingFrom
-                "st.team.workingTo"    |> kngModel << date r2.Team.WorkingTo
+                //"st.team.workingFrom"  |> kngModel << date r2.Team.WorkingFrom
+                //"st.team.workingTo"    |> kngModel << date r2.Team.WorkingTo
 
                 "st.teamAddress.accommodation"  |> ngModel << r2.TeamAddress.Accommodation
                 "st.teamAddress.address"        |> ngModel << r2.TeamAddress.Address
